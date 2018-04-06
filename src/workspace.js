@@ -435,7 +435,7 @@ module.exports = class Workspace extends Model {
 
       if (this.hasActiveTextEditor || hadActiveTextEditor) {
         // Perform tab length detection when there is an active text editor
-        if(this.hasActiveTextEditor) {
+        if (this.hasActiveTextEditor) {
           // Calculates tab length in active text editor
           let codeText = item.getText().split('\n')
           const detectedTabLength = this.detectIndent(codeText)
@@ -450,7 +450,7 @@ module.exports = class Workspace extends Model {
   }
 
   // Returns the detected tab length by comparing lines
-  detectIndent(lines) {
+  detectIndent (lines) {
     let indents = {} // # spaces indent -> # times seen
     let last = 0     // # leading spaces in the last line we saw
 
@@ -464,7 +464,8 @@ module.exports = class Workspace extends Model {
     })
 
     // find most frequent non-zero width difference
-    let indent = null, max = 0
+    let indent = null
+    let max = 0
     for (let width in indents) {
       width = parseInt(width, 10)
       let tally = indents[width]
@@ -475,7 +476,7 @@ module.exports = class Workspace extends Model {
     }
 
     return indent
-}
+  }
 
   didChangeActivePaneItem (item) {
     this.updateWindowTitle()
