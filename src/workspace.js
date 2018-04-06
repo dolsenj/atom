@@ -434,11 +434,48 @@ module.exports = class Workspace extends Model {
       this.hasActiveTextEditor = item instanceof TextEditor
 
       if (this.hasActiveTextEditor || hadActiveTextEditor) {
+        // Perform tab length detection when there is an active text editor
+        if(this.hasActiveTextEditor) {
+          // Calculates tab length in active text editor
+          let codeText = item.getText().split('\n')
+          const detectedTabLength = this.detectIndent(codeText)
+
+          // Set tab length
+          item.setTabLength(detectedTabLength)
+        }
         const itemValue = this.hasActiveTextEditor ? item : undefined
         this.emitter.emit('did-change-active-text-editor', itemValue)
       }
     }
   }
+
+  // Returns the detected tab length by comparing lines
+  detectIndent(lines) {
+    let indents = {} // # spaces indent -> # times seen
+    let last = 0     // # leading spaces in the last line we saw
+
+    lines.forEach(function (text) {
+      let width = text.search(/\S/)
+      let indent = Math.abs(width - last)
+      if (indent > 1) {
+        indents[indent] = (indents[indent] || 0) + 1
+      }
+      last = width
+    })
+
+    // find most frequent non-zero width difference
+    let indent = null, max = 0
+    for (let width in indents) {
+      width = parseInt(width, 10)
+      let tally = indents[width]
+      if (tally > max) {
+        max = tally
+        indent = width
+      }
+    }
+
+    return indent
+}
 
   didChangeActivePaneItem (item) {
     this.updateWindowTitle()
