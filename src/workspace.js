@@ -441,7 +441,19 @@ module.exports = class Workspace extends Model {
           const detectedTabLength = this.detectIndent(codeText)
 
           // Set new tab length
+<<<<<<< HEAD
           if (item.getTabLength() !== detectedTabLength) {
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+          if (item.getTabLength() !== detectedTabLength) {
+=======
+          if (item.getTabLength() != detectedTabLength) {
+>>>>>>> be52b61b7... Changes the tab length only when it is different from the current tab length because it is redundant to set the tab length to itself.
+=======
+          if (item.getTabLength() !== detectedTabLength) {
+>>>>>>> 3f9714657... Fixed lint errors.
+>>>>>>> Added code to perform tab detection when a pane is changed. This is useful when the tab length of a file differs from the default tab language for a programming language.
             item.setTabLength(detectedTabLength)
           }
         }

@@ -477,7 +477,19 @@ class TextEditorComponent {
       attributes.mini = ''
     }
 
+<<<<<<< HEAD
     if (model.isReadOnly()) {
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+    if (model.isReadOnly()) {
+=======
+    if (!model.isReadOnly()) {
+>>>>>>> 154576852... Derive the `readonly` attribute from `model.isReadOnly()`
+=======
+    if (model.isReadOnly()) {
+>>>>>>> 0c2f45849... Boolean logic, my old enemy
+>>>>>>> Added code to perform tab detection when a pane is changed. This is useful when the tab length of a file differs from the default tab language for a programming language.
       attributes.readonly = ''
     }
 
