@@ -440,8 +440,10 @@ module.exports = class Workspace extends Model {
           let codeText = item.getText().split('\n')
           const detectedTabLength = this.detectIndent(codeText)
 
-          // Set tab length
-          item.setTabLength(detectedTabLength)
+          // Set new tab length
+          if (item.getTabLength() !== detectedTabLength) {
+            item.setTabLength(detectedTabLength)
+          }
         }
         const itemValue = this.hasActiveTextEditor ? item : undefined
         this.emitter.emit('did-change-active-text-editor', itemValue)
