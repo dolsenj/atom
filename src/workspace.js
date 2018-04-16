@@ -441,7 +441,7 @@ module.exports = class Workspace extends Model {
           const detectedTabLength = this.detectIndent(codeText)
 
           // Set new tab length
-          if (item.getTabLength() != detectedTabLength) {
+          if (item.getTabLength() !== detectedTabLength) {
             item.setTabLength(detectedTabLength)
           }
         }
