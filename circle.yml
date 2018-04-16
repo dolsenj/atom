@@ -21,9 +21,6 @@ dependencies:
     - nvm use 6.9.4
     - npm install -g npm@5.3.0
 
-  override:
-    - script/build --code-sign --compress-artifacts
-
   cache_directories:
     - electron
     - apm/node_modules
