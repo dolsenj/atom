@@ -2913,66 +2913,6 @@ describe('Workspace', () => {
   })
 })
 
-describe('when the file is being edited', () => {
-
-  it('should detect tab length for sample.js', () => {
-    let editor = null
-    waitsForPromise(() =>
-      atom.workspace.open('sample.js', {pending: true}).then(o => {
-        editor = o
-      })
-    )
-
-    runs(() => {
-      let tab_len = atom.workspace.detectIndent(editor.getText().split('\n'))
-      expect(tab_len).toBe(2)
-    })
-  })
-
-  it('should detect tab length for sample-with-four-space-tabs.js', () => {
-    let editor = null
-    waitsForPromise(() =>
-      atom.workspace.open('sample-with-four-space-tabs.js', {pending: true}).then(o => {
-        editor = o
-      })
-    )
-
-    runs(() => {
-      let tab_len = atom.workspace.detectIndent(editor.getText().split('\n'))
-      expect(tab_len).toBe(4)
-    })
-  })
-
-  it('should detect tab length for sample-with-three-space-tabs.js', () => {
-    let editor = null
-    waitsForPromise(() =>
-      atom.workspace.open('sample-with-three-space-tabs.js', {pending: true}).then(o => {
-        editor = o
-      })
-    )
-
-    runs(() => {
-      let tab_len = atom.workspace.detectIndent(editor.getText().split('\n'))
-      expect(tab_len).toBe(3)
-    })
-  })
-
-  it('should detect tab length for sample-with-outliers.js', () => {
-    let editor = null
-    waitsForPromise(() =>
-      atom.workspace.open('sample-with-outliers.js', {pending: true}).then(o => {
-        editor = o
-      })
-    )
-
-    runs(() => {
-      let tab_len = atom.workspace.detectIndent(editor.getText().split('\n'))
-      expect(tab_len).toBe(2)
-    })
-  })
-
-})
-
 function escapeStringRegex (string) {
   return string.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
 }
