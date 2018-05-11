@@ -3609,14 +3609,53 @@ class TextEditor {
   // Returns a {Boolean} or undefined if no non-comment lines had leading
   // whitespace.
   usesSoftTabs () {
-    const languageMode = this.buffer.getLanguageMode()
-    const hasIsRowCommented = languageMode.isRowCommented
+    return this.getCurrentSoftTabLength() != null
+  }
+
+  // Extended: Get the tab length of the file being opened
+  //
+  // Returns null if hard tabs ('\t') are being used. Returns the tab length being
+  // used otherwise
+  getCurrentSoftTabLength () {
+    // Array of lines of code
+    let fileCode = []
+    // Only look at the first thousand lines of code to avoid slow down for large files
     for (let bufferRow = 0, end = Math.min(1000, this.buffer.getLastRow()); bufferRow <= end; bufferRow++) {
-      if (hasIsRowCommented && languageMode.isRowCommented(bufferRow)) continue
       const line = this.buffer.lineForRow(bufferRow)
-      if (line[0] === ' ') return true
-      if (line[0] === '\t') return false
+      if (line[0] === '\t') return null
+      fileCode.push(line)
     }
+    return this.detectTabLength(fileCode)
+  }
+
+  // Extended: Get the soft tab length
+  detectTabLength (lines) {
+    let indents = {} // # spaces indent -> # times seen
+    let last = 0     // # leading spaces in the last line we saw
+
+    lines.forEach(function (text) {
+      // var width = this.leadingSpaces(text);
+      let width = text.search(/\S/)
+      let indent = Math.abs(width - last)
+      if (indent > 1) {
+        indents[indent] = (indents[indent] || 0) + 1
+      }
+      last = width
+    })
+
+    // find most frequent non-zero width difference
+    let indent = null
+    let max = 0
+    for (let width in indents) {
+      width = parseInt(width, 10)
+      let tally = indents[width]
+      if (tally > max) {
+        max = tally
+        indent = width
+      }
+    }
+
+    return indent
   }
 
   // Extended: Get the text representing a single level of indent.

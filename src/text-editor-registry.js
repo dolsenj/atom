@@ -161,6 +161,9 @@ class TextEditorRegistry {
         this.config.get('editor.tabType', configOptions),
         this.config.get('editor.softTabs', configOptions)
       ))
+      if (editor.usesSoftTabs != null) {
+        editor.setTabLength(editor.getCurrentSoftTabLength())
+      }
     }
 
     updateTabTypes()
